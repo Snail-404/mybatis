@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ldu.mapper.UserInfoMapper">
+	<resultMap type="UserInfo" id="userMap">
+		<id property="id" column="user_id"></id>
+		<result property="userName" column="user_name"></result>
+		<result property="sex" column="user_sex"></result>
+		<collection property="Orderlist" ofType="OrderInfo" column="user_id">
+			<id property="oid" column="order_id"></id>
+			<result property="proName" column="order_name" />
+			<result property="price" column="order_price" />
+		</collection>
+	</resultMap>
+
+
+	<!--条件查询 -->
+	<select id="selectUser" parameterType="Integer" resultMap="userMap">
+		select
+		a.*,b.*
+		from
+		user_info a,
+		order_info b
+		where
+		a.user_id = b.user_id
+		and a.user_id=#{id}
+	</select>
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ldu.user">
+	<resultMap type="com.ldu.po.UserInfo" id="userMap">
+		<result property="id" column="user_id"></result>
+		<result property="userName" column="user_name"></result>
+		<result property="sex" column="user_sex"></result>
+	</resultMap>
+
+	<!--查询所有 -->
+	<select id="selectUser" resultMap="userMap">
+		select * from user_info
+	</select>
+	<!--条件查询 -->
+	<select id="selectOne" parameterType="UserInfo" resultMap="userMap">
+		select * from user_info where 1=1
+		<if test="id!=null">
+			and user_id = #{id}
+		</if>
+	</select>
+
+	<!--添加数据 -->
+	<insert id="insertUser" parameterType="UserInfo">
+		insert into user_info
+		(user_name,user_sex) values(#{userName},#{sex})
+	</insert>
+
+
+
+	<!--修改数据 -->
+	<update id="updateUser" parameterType="UserInfo">
+		update user_info set
+		user_name=#{userName},user_sex=#{sex} where user_id=#{id}
+	</update>
+
+	<!--删除数据 -->
+	<delete id="deleteUser" parameterType="Integer">
+		delete from user_info
+		where user_id=#{id}
+	</delete>
+
+
+
+
+
+
+</mapper>

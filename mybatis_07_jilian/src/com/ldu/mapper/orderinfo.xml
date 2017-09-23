@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ldu.mapper.OrderInfoMapper">
+	<resultMap type="OrderInfo" id="orderMap">
+
+		<id property="oid" column="order_id" />
+		<result property="proName" column="order_name" />
+		<result property="price" column="order_price" />
+		<association property="userInfo" javaType="UserInfo"
+			column="user_id">
+			<id property="id" column="user_id"></id>
+			<result property="userName" column="user_name"></result>
+			<result property="sex" column="user_sex"></result>
+		</association>
+	</resultMap>
+
+	<select id="selectOrder" resultMap="orderMap">
+		select
+		a.*,b.*
+		from
+		user_info a,
+		order_info b
+		where
+		a.user_id = b.user_id
+	</select>
+</mapper>

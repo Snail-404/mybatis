@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ldu.mapper.UserInfoMapper">
+	<resultMap type="com.ldu.po.UserInfo" id="userMap">
+		<result property="id" column="user_id"></result>
+		<result property="userName" column="user_name"></result>
+		<result property="sex" column="user_sex"></result>
+	</resultMap>
+
+	<!--查询所有 -->
+	<!-- <select id="selectUser" resultMap="userMap"> select * from user_info 
+		</select> -->
+
+	<!--条件查询 -->
+	<select id="selectUser" parameterType="UserInfo" resultMap="userMap">
+		select * from user_info
+
+		<where>
+			<if test="id!=null and id!=0">
+				user_id = #{id}
+			</if>
+			<if test="userName!=null and userName!=''">
+				and user_name = #{userName}
+			</if>
+			<if test="sex!=null and sex!=''">
+				and user_sex = #{sex}
+			</if>
+		</where>
+
+	</select>
+
+	<!--添加数据 -->
+	<insert id="insertUser" parameterType="UserInfo">
+		insert into user_info
+		(user_name,user_sex) values(#{userName},#{sex})
+	</insert>
+
+
+
+	<!--修改数据 -->
+	<update id="updateUser" parameterType="UserInfo">
+		update user_info
+		<set>
+			<if test="userName!=null and userName!=''">
+				user_name=#{userName},
+			</if>
+			<if test="sex!=null and sex!=''">
+				user_sex = #{sex}
+			</if>
+		</set>
+		where user_id=#{id}
+	</update>
+
+	<!--删除数据 -->
+	<delete id="deleteUser" parameterType="Integer">
+		delete from user_info
+		where user_id=#{id}
+	</delete>
+
+</mapper>

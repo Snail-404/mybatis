@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ldu.mapper.GroupInfoMapper">
+	<resultMap type="GroupInfo" id="groupMap">
+		<id property="groupId" column="group_id"></id>
+		<result property="groupName" column="group_name"></result>
+		<collection property="users" ofType="UserInfo" column="group_id"
+			fetchType="lazy" select="com.ldu.mapper.UserInfoMapper.selectUserByGroupId"/>
+	</resultMap>
+	
+	<select id="selectGroups" parameterType="int" resultMap="groupMap">
+			select * from group_info where group_id=#{GroupId}
+	</select>
+	<select id="selectGroupByUserId" parameterType="int" resultMap="groupMap">
+	select g.*
+	from group_info g,user_group_info ug
+	where g.group_id=ug.gid and ug.uid=#{userId}
+	</select>
+</mapper>
